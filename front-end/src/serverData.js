@@ -6,12 +6,29 @@ let server = {
 
 server.getBooks = async function () {
     try {
-        let response = await axios.get("/api/books");
-        this.books = response.data;
-        return true;
-
+        let response = await axios.get("/api/book");
+        if (!response.data.success) {
+            alert('Unexpected error getting books from server: ' + response.reason);
+            return false;
+        }
+        return response.data.books;
     } catch (error) {
         console.log(error);
+        alert('Unexpected error getting books: ' + error.message);
+    }
+};
+
+server.getReviews = async function (bookId) {
+    try {
+        let response = await axios.get("/api/book/" + bookId + "/review");
+        if (!response.data.success) {
+            alert('Unexpected error getting books from server: ' + response.reason);
+            return false;
+        }
+        return response.data.reviews;
+    } catch (error) {
+        console.log(error);
+        alert('Unexpected error getting reviews: ' + error.message);
     }
 };
 

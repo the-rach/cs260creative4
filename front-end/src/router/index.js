@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeLibrary from "../views/homeLibraryWeb.vue";
-import bookListWeb from "../views/bookListWeb.vue";
+import bookDetail from "../views/bookDetail.vue";
 import booksToReadWeb from "../views/booksToReadWeb.vue";
 import bookSuggestionsWeb from "../views/bookSuggestionsWeb";
 
@@ -21,9 +21,9 @@ const routes = [
     component: HomeLibrary
   },
   {
-    path: '/booklist',
-    name: 'bookListWeb',
-    component: bookListWeb
+    path: '/bookDetail/:bookId',
+    name: 'bookDetail',
+    component: bookDetail
   },
   {
     path: '/booksToRead',

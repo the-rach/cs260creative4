@@ -10,8 +10,9 @@
                     <img :src="'/images/'+book.image">
                 </div>
                 <div class="buttons">
-                    <button class="auto" v-on:click="addToBookList(book)">Add to Book List</button>
-                    <button class="'auto" v-on:click="addToReadList(book)">Add to To Read List</button>
+<!--                    <router-link :to="{name: '/bookDetail', params: {bookId: book.bookId}">View Book Detail</router-link>-->
+                     <router-link :to="{name: 'bookDetail', params: {bookId: book.bookId}}">View Book Details</router-link>
+<!--                    <button class="auto" v-on:click="">View Book Detail</button>-->
                 </div>
             </div>
         </div>
@@ -25,47 +26,13 @@
         //props are the parameters the component accepts
         props: { //when i use this component, i will pass in an array (this will be the mock data of library books)
             books: Array,
-            // books: [],  //TODO NEW - should this return data() like example?
         },
-        // created() {
-        //     this.getBooks(); //TODO NEW
-        // },
         methods: {
-            // async getBooks() { //TODO NEW
-            //     try {
-            //         let response = await axios.get("/api/books");
-            //         this.books = response.data;
-            //         return true;
-            //
-            //     } catch (error) {
-            //         console.log(error);
-            //     }
-            // },
-            addToBookList: function(book) {
-                let foundBook = this.$root.$data.bookList.find(aBook => aBook.id === book.id);
-                if (foundBook) {
-                    //book is already in bookList
-                } else { //this book is not in bookList, so add it
-
-                    //todo: should this pass in the id?
-                    this.$root.$data.bookList.push({book: book});
-                }
-            },
-            addToReadList: function(book) {
-                let foundBook = this.$root.$data.toReadList.find(aBook => aBook.id === book.id);
-                if (foundBook) {
-                    //book is already in bookList
-                } else { //this book is not in bookList, so add it
-
-                    /*
-                    NOTE: because I populated this array with a property called book that holds this book object,
-                    in my bookList.vue when I want to use this book object's properties, I need to call book.book.title,
-                    or the title (property) will not appear in the HTML. I won't be able to access it with just book.title
-                     */
-
-                    this.$root.$data.toReadList.push({book: book});
-                }
+            viewBookDetail: function(book) {
+                //TODO: route new view book detail page
+                console.log(book);
             }
+
         }
     }
 </script>
