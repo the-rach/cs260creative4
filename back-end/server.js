@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+const uuid = require("uuid")
 
 //this middleware runs on every single request to node (turns it into json to be easily used below)
 const app = express();
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({
 const mongoose = require('mongoose');
 
 // connect to the database
-mongoose.connect('mongodb://localhost:27017/bookStore', {
+mongoose.connect('mongodb://localhost:27017/bookstore', {
     useNewUrlParser: true
 });
 
@@ -27,170 +28,198 @@ const upload = multer({
 
 
 const bookSchema = new mongoose.Schema({
-    id: Number,
-    title: String,
-    author: String,
+    bookId: {
+        required: true,
+        type: String,
+        unique: true
+    },
+    title: {
+        required: true,
+        type: String
+    },
+    author: {
+        required: true,
+        type: String
+    },
     year: String,
-    // imagePath: String,
+    imagePath: String
 });
 
 const Book = mongoose.model('Book', bookSchema);
 
+const reviewSchema = new mongoose.Schema({
+    reviewId: {
+        required: true,
+        type: String,
+        unique: true
+    },
+    bookId: {
+        required: true,
+        type: String,
+        index: true
+    },
+    name: {
+        required: true,
+        type: String
+    },
+    comment: {
+        required: true,
+        type: String
+    }
+});
+
+const Review = mongoose.model('Review', reviewSchema);
+
 app.get('/api/book', async (req, res) => {
-    //TODO: get books from mongo
-    const books = [{
-        bookId: 3,
-        title: 'Pride and Prejudice',
-        author: 'Jane Austen',
-        image: 'janeausten.jpeg',
-        year: 1813
-    }];
-    res.send({success: true, books: books});
+    try {
+        let books = await Book.find(); //get a list of all the books in the collection
+        res.send({success: true, books: books});
+    } catch (error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
+    }
+
+
 });
 
 app.post('/api/book', async (req, res) => {
-    const book = req.body;
-    //TODO: save this to mongo
-
-    //TODO: generate a real ID for the book
-    book.bookId = 'our magical id here';
-
-    console.log(book);
-    res.send({success: true, book: book});
-    // try{
-    //     await book.save();
-    //     res.send(book);
-    // } catch (error) {
-    //     console.log(error);
-    //     res.sendStatus(500);
-    // }
+    const newBook = new Book({
+        bookId: uuid.v4(), //creates a unique id
+        title: req.body.title,
+        author: req.body.author,
+        year: req.body.year,
+        imagePath: req.body.imagePath ? req.body.imagePath : null
+    });
+    try {
+        await newBook.save();
+        //const book = await Book.findOne({bookId: newBook.bookId}); //finds book in collection w/ specific id
+        console.log(newBook);
+        res.send({success: true, book: newBook});
+    } catch (error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
+    }
 });
 
 app.put('/api/book/:bookId', async (req, res) => {
-    const book = req.body;
-    console.log(book);
-    //TODO: update this book in mongo
-
-    let bookId = parseInt(req.params.bookId);
-    if (isNaN(bookId)) {
-        res.send({success: false, reason: 'bookId was not an integer: ' + bookId});
-        return;
-    }
-
-    if (bookId !== book.bookId) {
+    let bookId = req.params.bookId;
+    if (bookId !== req.body.bookId) {
         res.send({success: false, reason: 'bookId did not match: ' + bookId});
         return;
     }
 
-    res.send({success: true});
-    // try{
-    //     await book.save();
-    //     res.send(book);
-    // } catch (error) {
-    //     console.log(error);
-    //     res.sendStatus(500);
-    // }
+    try {
+        //we don't want to use _id because it is a pain, create a unique string id instead
+        // let book = await Book.findOne({ //find book in DB and saves it in item
+        //     _id: req.params.id
+        // });
+        //finds book w/ this property (bookId:) with this specific book id
+        const book = await Book.findOne({bookId: bookId}); //finds book in DB collection w/ specific id
+
+        if (book !== null) { //book is not in DB
+            book.title = req.body.title;
+            book.author =  req.body.author;
+            book.year = req.body.year;
+            await book.save(); //save it in DB
+            res.send({success: true, book});
+        } else {
+            res.send({success: false, reason: 'Did not find the book to update: ' + bookId});
+        }
+
+    } catch(error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
+    }
 });
 
 app.delete('/api/book/:bookId', async (req, res) => {
-    let bookId = parseInt(req.params.bookId);
-    if (isNaN(bookId)) {
-        res.send({success: false, reason: 'bookId was not an integer: ' + bookId});
-        return;
+    let bookId = req.params.bookId;
+
+    try {
+        const book = await Book.findOne({bookId: bookId}); //finds book in DB collection w/ specific id
+        if (book !== null) {
+            await Book.deleteOne({bookId: bookId});
+            res.send({success: true});
+        } else {
+            res.send({success: false, reason: 'Did not find the book to delete: ' + bookId});
+        }
+
+    } catch(error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
     }
-
-    //TODO: verify the exists in the database and if it doesn't
-    // then return this error
-    let bookFound = true;
-    if (!bookFound) {
-        res.send({success: false, reason: 'A book with that ID was not found: ' + bookId});
-        return;
-    }
-
-    //TODO: delete the book from mongo here
-
-    res.send({success: true});
-    // try{
-    //     await book.save();
-    //     res.send(book);
-    // } catch (error) {
-    //     console.log(error);
-    //     res.sendStatus(500);
-    // }
 });
+
+/*
+const newBook = new Book({
+        bookId: uuid.v4(), //creates a unique id
+        title: req.body.title,
+        author: req.body.author,
+        year: req.body.year,
+        imagePath: req.body.imagePath ? req.body.imagePath : null
+    });
+    try {
+        await newBook.save();
+        //const book = await Book.findOne({bookId: newBook.bookId}); //finds book in collection w/ specific id
+        console.log(newBook);
+        res.send({success: true, book: newBook});
+    } catch (error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
+    }
+
+
+ */
 
 app.post('/api/book/:bookId/review', async (req, res) => {
-    const review = req.body;
-    let bookId = parseInt(req.params.bookId);
-    if (isNaN(bookId)) {
-        res.send({success: false, reason: 'bookId was not an integer: ' + bookId});
+    let bookId = req.params.bookId;
+
+    if (bookId !== req.body.bookId) {
+        res.send({success: false, reason: 'Book IDs do not match: ' + bookId});
         return;
     }
 
-    //TODO: verify the exists in the database and if it doesn't
-    // then return this error
-    let bookFound = true;
-    if (!bookFound) {
-        res.send({success: false, reason: 'A book with that ID was not found: ' + bookId});
-        return;
+    try {
+        const book = await Book.findOne({bookId: bookId}); //finds book in collection w/ specific id
+        if (book === null) {
+            res.send({success: false, reason: 'A book with that ID was not found: ' + bookId});
+            return;
+        }
+
+        const newReview = new Review({
+            reviewId: uuid.v4(), //creates a unique id
+            bookId: req.body.bookId,
+            name: req.body.name,
+            comment: req.body.comment
+        });
+        await newReview.save();
+        res.send({success: true, review: newReview});
+
+    } catch (error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
     }
-
-    //TODO: generate an ID and put it on the review
-    review.reviewId = 'some id';
-
-    //TODO: add the book to the mongo review collection
-
 
     res.send({success: true, review: review});
-    // try{
-    //     await book.save();
-    //     res.send(book);
-    // } catch (error) {
-    //     console.log(error);
-    //     res.sendStatus(500);
-    // }
 });
 
-app.delete('/api/book/:bookId/review/:reviewId', async (req, res) => {
-    const review = req.body;
-    let bookId = parseInt(req.params.bookId);
-    if (isNaN(bookId)) {
-        res.send({success: false, reason: 'bookId was not an integer: ' + bookId});
-        return;
+app.get('/api/book/:bookId/review', async (req, res) => {
+    let bookId = req.params.bookId;
+
+    try {
+        const book = await Book.findOne({bookId: bookId}); //finds book in collection w/ specific id
+        if (book === null) {
+            res.send({success: false, reason: 'A book with that ID was not found: ' + bookId});
+            return;
+        }
+
+        let reviews = await Review.find(); //get a list of all the reviews in the collection
+        res.send({success: true, reviews: reviews});
+
+    } catch (error) {
+        console.log(error);
+        res.send({success: false, reason: 'Unexpected error: ' + error.message});
     }
-
-    //TODO: verify the book exists in the database and if it doesn't
-    // then return this error
-    let bookFound = true;
-    if (!bookFound) {
-        res.send({success: false, reason: 'A book with that ID was not found: ' + bookId});
-        return;
-    }
-
-    let reviewId = parseInt(req.params.reviewId);
-    if (isNaN(bookId)) {
-        res.send({success: false, reason: 'reviewId was not an integer: ' + reviewId});
-        return;
-    }
-
-    //TODO: verify the review exists in the database and if it doesn't
-    // then return this error
-    let reviewFound = true;
-    if (!reviewFound) {
-        res.send({success: false, reason: 'A review with that ID was not found: ' + reviewId});
-        return;
-    }
-
-    //TODO: delete the review from mongo
-
-    res.send({success: true});
-    // try{
-    //     await book.save();
-    //     res.send(book);
-    // } catch (error) {
-    //     console.log(error);
-    //     res.sendStatus(500);
-    // }
 });
 
 app.listen(3000, () => console.log('Server listening on port 3000!'));
