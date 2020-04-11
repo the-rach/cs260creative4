@@ -13,7 +13,7 @@ server.getBooks = async function () {
         }
         return response.data.books;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error getting books: ' + error.message);
     }
 };
@@ -27,7 +27,7 @@ server.createBook = async function(book) {
         }
         return response.data.book;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error creating book: ' + error.message);
     }
 };
@@ -41,7 +41,7 @@ server.updateBook = async function(book) {
         }
         return response.data.book;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error updating book: ' + error.message);
     }
 };
@@ -55,7 +55,7 @@ server.deleteBook = async function(bookId) {
         }
         return true;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error deleting book: ' + error.message);
         return false;
     }
@@ -70,7 +70,7 @@ server.getReviews = async function (bookId) {
         }
         return response.data.reviews;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error getting reviews: ' + error.message);
     }
 };
@@ -84,7 +84,7 @@ server.createReview = async function (review) {
         }
         return response.data.review;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert('Unexpected error creating review: ' + error.message);
     }
 };

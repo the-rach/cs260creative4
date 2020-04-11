@@ -27,9 +27,10 @@
             books: Array,
         },
         methods: {
-            viewBookDetail: function(book) {
+            viewBookDetail: function() {
                 //TODO: route new view book detail page
-                console.log(book);
+                // console.log(book);
+
             }
 
         }
