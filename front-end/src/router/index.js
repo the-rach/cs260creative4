@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeLibrary from "../views/homeLibraryWeb.vue";
+import HomeLibrary from "../views/home.vue";
 import bookDetail from "../views/bookDetail.vue";
 import booksToReadWeb from "../views/booksToReadWeb.vue";
 import bookSuggestionsWeb from "../views/bookSuggestionsWeb";
+import book from "../views/book";
+import review from "../views/review";
 
 
 Vue.use(VueRouter)
@@ -24,6 +26,16 @@ const routes = [
     path: '/bookDetail/:bookId',
     name: 'bookDetail',
     component: bookDetail
+  },
+  {
+    path: '/book/:bookId',
+    name: 'book',
+    component: book
+  },
+  {
+    path: '/review/:bookId',
+    name: 'review',
+    component: review
   },
   {
     path: '/booksToRead',

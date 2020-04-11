@@ -12,6 +12,7 @@
                 <div class="buttons">
 <!--                    <router-link :to="{name: '/bookDetail', params: {bookId: book.bookId}">View Book Detail</router-link>-->
                      <router-link :to="{name: 'bookDetail', params: {bookId: book.bookId}}">View Book Details</router-link>
+                    <router-link :to="{name: 'book', params: {bookId: book.bookId}}">Edit Book</router-link>
 <!--                    <button class="auto" v-on:click="">View Book Detail</button>-->
                 </div>
             </div>

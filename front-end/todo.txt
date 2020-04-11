@@ -1,0 +1,6 @@
+- Make Book Detail pretty
+X Create Book
+X Update Book
+X Delete Book
+- Create Review
+- Book Details are showing the wrong reviews

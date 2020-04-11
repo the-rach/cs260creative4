@@ -10,14 +10,22 @@
             <div>Name: {{review.name}}</div>
             <div>Comment: {{review.comment}}</div>
         </div>
+        <button class="auto" v-on:click="goToCreateReview()">Create Book Review</button>
     </div>
 </template>
 
 <script>
-    import serverData from "../serverData"
+    import serverData from "../serverData";
+    import router from "../router";
     export default {
         name: 'bookDetail', //name of this component
         components: { //components that can be used in bookListWeb template
+        },
+        methods: {
+            goToCreateReview: async function() {
+                const bookId = this.$route.params.bookId;
+                await router.push({ name: "review", params: {bookId: bookId} });
+            }
         },
         computed: { //the property is the bookList array
             book() { //this is a computed property and returns the book whose details we want

@@ -213,7 +213,7 @@ app.get('/api/book/:bookId/review', async (req, res) => {
             return;
         }
 
-        let reviews = await Review.find(); //get a list of all the reviews in the collection
+        let reviews = await Review.find({bookId: bookId}); //get a list of all the reviews in the collection
         res.send({success: true, reviews: reviews});
 
     } catch (error) {

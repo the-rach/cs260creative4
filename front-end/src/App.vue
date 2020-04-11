@@ -1,20 +1,14 @@
 <template>
   <div id="app">
     <h1>Welcome to The Book Lounge!</h1>
-    <p>In The Book Lounge, you can add the books you've read to your Book List or make a list of books that you want to read </p>
+    <p>In The Book Lounge, you can add your favorite books, remove them and add reviews to them. </p>
     <img class="home-image" src = "../public/images/book.jpg" alt="Books">
     <div id="nav">
       <div class="nav-item">
         <router-link to="/">The Book Lounge Library</router-link>
       </div>
       <div class="nav-item">
-        <router-link to="/booklist">My Book List</router-link>
-      </div>
-      <div class="nav-item">
-        <router-link to="/booksToRead">Books To Read List</router-link>
-      </div>
-      <div class="nav-item">
-        <router-link to="/bookSuggestions">Books Suggestions</router-link>
+        <router-link to="/book/create">Create a new Book</router-link>
       </div>
     </div>
     <router-view/>
