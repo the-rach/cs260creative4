@@ -6,7 +6,7 @@ let server = {
 
 server.getBooks = async function () {
     try {
-        let response = await axios.get("/api/book");
+        let response = await axios.get("/apis/book");
         if (!response.data.success) {
             alert('Unexpected error getting books from server: ' + response.reason);
             return false;
@@ -20,7 +20,7 @@ server.getBooks = async function () {
 
 server.createBook = async function(book) {
     try {
-        let response = await axios.post("/api/book", book);
+        let response = await axios.post("/apis/book", book);
         if (!response.data.success) {
             alert('Unexpected error creating book: ' + response.reason);
             return {};
@@ -34,7 +34,7 @@ server.createBook = async function(book) {
 
 server.updateBook = async function(book) {
     try {
-        let response = await axios.put("/api/book/" + book.bookId, book);
+        let response = await axios.put("/apis/book/" + book.bookId, book);
         if (!response.data.success) {
             alert('Unexpected error updating book: ' + response.reason);
             return {};
@@ -48,7 +48,7 @@ server.updateBook = async function(book) {
 
 server.deleteBook = async function(bookId) {
     try {
-        let response = await axios.delete("/api/book/" + bookId);
+        let response = await axios.delete("/apis/book/" + bookId);
         if (!response.data.success) {
             alert('Unexpected error deleting book: ' + response.reason);
             return false;
@@ -63,7 +63,7 @@ server.deleteBook = async function(bookId) {
 
 server.getReviews = async function (bookId) {
     try {
-        let response = await axios.get("/api/book/" + bookId + "/review");
+        let response = await axios.get("/apis/book/" + bookId + "/review");
         if (!response.data.success) {
             alert('Unexpected error getting books from server: ' + response.reason);
             return false;
@@ -77,7 +77,7 @@ server.getReviews = async function (bookId) {
 
 server.createReview = async function (review) {
     try {
-        let response = await axios.post("/api/book/" + review.bookId + "/review", review);
+        let response = await axios.post("/apis/book/" + review.bookId + "/review", review);
         if (!response.data.success) {
             alert('Unexpected error creating review: ' + response.reason);
             return false;

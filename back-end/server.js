@@ -55,8 +55,7 @@ const reviewSchema = new mongoose.Schema({
     },
     bookId: {
         required: true,
-        type: String,
-        index: true
+        type: String
     },
     name: {
         required: true,
@@ -70,7 +69,7 @@ const reviewSchema = new mongoose.Schema({
 
 const Review = mongoose.model('Review', reviewSchema);
 
-app.get('/api/book', async (req, res) => {
+app.get('/apis/book', async (req, res) => {
     try {
         let books = await Book.find(); //get a list of all the books in the collection
         res.send({success: true, books: books});
@@ -82,7 +81,7 @@ app.get('/api/book', async (req, res) => {
 
 });
 
-app.post('/api/book', async (req, res) => {
+app.post('/apis/book', async (req, res) => {
     const newBook = new Book({
         bookId: uuid.v4(), //creates a unique id
         title: req.body.title,
@@ -101,7 +100,7 @@ app.post('/api/book', async (req, res) => {
     }
 });
 
-app.put('/api/book/:bookId', async (req, res) => {
+app.put('/apis/book/:bookId', async (req, res) => {
     let bookId = req.params.bookId;
     if (bookId !== req.body.bookId) {
         res.send({success: false, reason: 'bookId did not match: ' + bookId});
@@ -132,7 +131,7 @@ app.put('/api/book/:bookId', async (req, res) => {
     }
 });
 
-app.delete('/api/book/:bookId', async (req, res) => {
+app.delete('/apis/book/:bookId', async (req, res) => {
     let bookId = req.params.bookId;
 
     try {
@@ -171,7 +170,7 @@ const newBook = new Book({
 
  */
 
-app.post('/api/book/:bookId/review', async (req, res) => {
+app.post('/apis/book/:bookId/review', async (req, res) => {
     let bookId = req.params.bookId;
 
     if (bookId !== req.body.bookId) {
@@ -199,11 +198,9 @@ app.post('/api/book/:bookId/review', async (req, res) => {
         console.log(error);
         res.send({success: false, reason: 'Unexpected error: ' + error.message});
     }
-
-    res.send({success: true, review: review});
 });
 
-app.get('/api/book/:bookId/review', async (req, res) => {
+app.get('/apis/book/:bookId/review', async (req, res) => {
     let bookId = req.params.bookId;
 
     try {
@@ -222,4 +219,4 @@ app.get('/api/book/:bookId/review', async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('Server listening on port 3000!'));
+app.listen(4000, () => console.log('Server listening on port 4000!'));

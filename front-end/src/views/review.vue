@@ -1,7 +1,8 @@
 <template>
     <div>
-        <h2>Create a new book review...</h2>
-
+        <h2>Create a new book review</h2>
+        <br>
+        <br>
         <div class="form">
             <input v-model="review.name" type="text" name="name" placeholder="Name" />
             <input v-model="review.comment" type="text" name="comment" placeholder="Comment" />
@@ -53,10 +54,12 @@
     input {
         display: block;
         width: 100%;
+        padding: 10px;
     }
 
     .form {
         width: 400px;
+        margin: auto;
     }
 
 </style>
