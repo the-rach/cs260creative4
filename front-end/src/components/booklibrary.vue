@@ -5,15 +5,14 @@
                 <div class="info">
                     <h1>{{book.title}}</h1>
                     <p>{{book.author}}</p>
+                    <p>{{book.year}}</p>
                 </div>
-                <div class="image">
-                    <img :src="'/images/'+book.image">
-                </div>
+<!--                <div class="image">-->
+<!--                    <img :src="'/images/'+book.image">-->
+<!--                </div>-->
                 <div class="buttons">
-<!--                    <router-link :to="{name: '/bookDetail', params: {bookId: book.bookId}">View Book Detail</router-link>-->
                      <router-link :to="{name: 'bookDetail', params: {bookId: book.bookId}}">View Book Details</router-link>
                     <router-link :to="{name: 'book', params: {bookId: book.bookId}}">Edit Book</router-link>
-<!--                    <button class="auto" v-on:click="">View Book Detail</button>-->
                 </div>
             </div>
         </div>
@@ -21,7 +20,6 @@
 </template>
 
 <script>
-    // import axios from 'axios'; //TODO NEW
     export default { //this makes this component accessible for other pages
         name: 'libraryBooks',
         //props are the parameters the component accepts
@@ -73,23 +71,24 @@
     }
 
     .info {
-        background: #E9967A;
+        background: #f2b5a0;
         color: #000;
         padding: 10px 30px;
-        height: 85px;
+        height: 200px;
+        border: 2px solid #333;
     }
 
     .info h1 {
-        font-size: 18px;
+        font-size: 22px;
     }
 
     .info h2 {
-        font-size: 14px;
+        font-size: 18px;
     }
 
     .info p {
         margin: 0px;
-        font-size: 14px;
+        font-size: 18px;
     }
 
 

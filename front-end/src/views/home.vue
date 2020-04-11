@@ -2,7 +2,7 @@
   <div>
     <div class="intro">
     <h2>This is The Book Lounge Library collection!</h2>
-    <p>Add the books you've read to your Book List or add books that you would like to read to your Books To Read List</p>
+    <p>Here are the favorite books that you have created. You can view the details of each book or edit it.</p>
     </div>
     <!--This makes use of the booklibrary component, & binds the books attribute to the books computed value --->
     <!--books is assigned the value of bookLibrary (which is all the mock data library) and it is passed into libraryBooks component-->

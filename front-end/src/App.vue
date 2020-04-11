@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Welcome to The Book Lounge!</h1>
-    <p>In The Book Lounge, you can add your favorite books, remove them and add reviews to them. </p>
+    <p>In The Book Lounge, you can add your favorite books, remove them, and add reviews to them. </p>
     <img class="home-image" src = "../public/images/book.jpg" alt="Books">
     <div id="nav">
       <div class="nav-item">
@@ -14,7 +14,7 @@
     <router-view/>
 
     <div class = "footer">
-      <p>Contact me! <a href="https://github.com/the-rach">Github Classroom Account</a></p>
+      <p>Contact me! <a href="https://github.com/the-rach/cs260creative4.git">Github Account</a></p>
     </div>
   </div>
 </template>

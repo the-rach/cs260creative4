@@ -1,15 +1,21 @@
 <template>
     <div>
         <h2>Book Detail</h2>
-        <div>Title: {{book.title}}</div>
-        <div>Author: {{book.author}}</div>
-        <div>Year: {{book.year}}</div>
-
-        <div>BOOK REVIEWS: </div>
-        <div class="review" v-for="review in reviews" :key="review.reviewId">
-            <div>Name: {{review.name}}</div>
-            <div>Comment: {{review.comment}}</div>
+        <br>
+        <div class="book-container">
+            <div><b><span style="color: #f2b5a0; ">Title: </span></b>{{book.title}}</div>
+        <div><b><span style="color: #f2b5a0; ">Author: </span></b>{{book.author}}</div>
+        <div><b><span style="color: #f2b5a0; ">Year: </span></b>{{book.year}}</div>
         </div>
+        <br>
+        <div><b>BOOK REVIEWS: </b></div>
+        <br>
+        <div class="review" v-for="review in reviews" :key="review.reviewId">
+            <div><b><span style="color: #f2b5a0; ">Name: </span></b>{{review.name}}</div>
+            <div><b><span style="color: #f2b5a0; ">Comment: </span></b>{{review.comment}}</div>
+        </div>
+        <br>
+        <br>
         <button class="auto" v-on:click="goToCreateReview()">Create Book Review</button>
     </div>
 </template>
@@ -45,6 +51,10 @@
 </script>
 
 <style scoped>
+.book-container {
+    /*border: 2px solid #333;*/
+    font-size: 20px;
 
+}
 
 </style>

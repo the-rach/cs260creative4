@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h2>Create a new book...</h2>
-
+        <h2>Create a new book</h2>
+        <br>
         <div class="form">
             <input v-model="book.title" type="text" name="title" placeholder="Title" />
             <input v-model="book.author" type="text" name="author" placeholder="Author" />
@@ -100,10 +100,13 @@
     input {
         display: block;
         width: 100%;
+        padding: 10px;
     }
 
     .form {
         width: 400px;
+        margin: auto;
+
     }
 
 </style>
